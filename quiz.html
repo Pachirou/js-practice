@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>学マス推しクイズ</title>
+  <style>
+    .sentaku { display: block; width: 100%; margin: 8px 0; padding: 12px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>学マス推しクイズ</h1>
+  <p id="bangou"></p>
+  <h2 id="mondai"></h2>
+  <div id="sentakuArea"></div>
+  <p id="kekka"></p>
+  <button id="next">次の問題へ</button>
+  <p><a href="index.html">メニューに戻る</a></p>
+
+  <script>
+    let quizList = [
+      { mondai: "篠澤広は何歳で大学を卒業した？", sentaku: ["12歳", "14歳", "16歳"], seikai: 1 },
+      { mondai: "篠澤広がアイドルを目指した理由は？", sentaku: ["家族にすすめられたから", "いちばん自分に向いてなさそうだから", "歌が得意だから"], seikai: 1 },
+      { mondai: "篠澤広の声優は？", sentaku: ["川村玲奈さん", "小鹿なおさん", "春咲暖さん"], seikai: 0 },
+      { mondai: "中等部ユニット「SyngUp!」のセンターは？", sentaku: ["秦谷美鈴", "賀陽燐羽", "月村手毬"], seikai: 2 },
+      { mondai: "「SyngUp!」のリーダーは？", sentaku: ["賀陽燐羽", "月村手毬", "秦谷美鈴"], seikai: 0 }
+    ]
+
+    let ima = 0
+    let seikaiSu = 0
+
+    function shutsudai() {
+      let q = quizList[ima]
+      document.getElementById("bangou").textContent = "第" + (ima + 1) + "問 / 全" + quizList.length + "問"
+      document.getElementById("mondai").textContent = q.mondai
+      document.getElementById("kekka").textContent = ""
+      document.getElementById("next").style.display = "none"
+
+      let area = document.getElementById("sentakuArea")
+      area.innerHTML = ""
+      for (let i = 0; i < q.sentaku.length; i++) {
+        let btn = document.createElement("button")
+        btn.className = "sentaku"
+        btn.textContent = q.sentaku[i]
+        btn.addEventListener("click", function () {
+          kotaeru(i)
+        })
+        area.appendChild(btn)
+      }
+    }
+
+    function kotaeru(erabi) {
+      let q = quizList[ima]
+      if (erabi === q.seikai) {
+        seikaiSu = seikaiSu + 1
+        document.getElementById("kekka").textContent = "正解！"
+      } else {
+        document.getElementById("kekka").textContent = "残念！ 正解は「" + q.sentaku[q.seikai] + "」"
+      }
+      for (let btn of document.querySelectorAll(".sentaku")) {
+        btn.disabled = true
+      }
+      document.getElementById("next").style.display = "block"
+    }
+
+    document.getElementById("next").addEventListener("click", function () {
+      ima = ima + 1
+      if (ima < quizList.length) {
+        shutsudai()
+      } else {
+        document.getElementById("bangou").textContent = ""
+        document.getElementById("mondai").textContent = "結果：" + quizList.length + "問中 " + seikaiSu + "問正解！"
+        document.getElementById("sentakuArea").innerHTML = ""
+        document.getElementById("kekka").textContent = ""
+        document.getElementById("next").style.display = "none"
+      }
+    })
+
+    shutsudai()
+  </script>
+</body>
+</html>
