@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>積みゲー・観たいアニメ管理</title>
+  <style>
+    .done { text-decoration: line-through; color: gray; }
+  </style>
+</head>
+<body>
+  <h1>積みゲー・観たいアニメ管理</h1>
+  <p>
+    <select id="shurui">
+      <option>ゲーム</option>
+      <option>アニメ</option>
+      <option>漫画</option>
+    </select>
+    <input type="text" id="title" placeholder="タイトル">
+    <button id="btn">追加</button>
+  </p>
+  <ul id="list"></ul>
+  <p><a href="index.html">メニューに戻る</a></p>
+
+  <script>
+    let items = JSON.parse(localStorage.getItem("tsumi") || "[]")
+
+    function hozon() {
+      localStorage.setItem("tsumi", JSON.stringify(items))
+    }
+
+    function hyouji() {
+      let list = document.getElementById("list")
+      list.innerHTML = ""
+      for (let i = 0; i < items.length; i++) {
+        let item = items[i]
+        let li = document.createElement("li")
+
+        let check = document.createElement("input")
+        check.type = "checkbox"
+        check.checked = item.done
+        check.addEventListener("change", function () {
+          item.done = check.checked
+          hozon()
+          hyouji()
+        })
+
+        let text = document.createElement("span")
+        text.textContent = "【" + item.shurui + "】" + item.title
+        if (item.done) {
+          text.className = "done"
+        }
+
+        let del = document.createElement("button")
+        del.textContent = "削除"
+        del.addEventListener("click", function () {
+          items.splice(i, 1)
+          hozon()
+          hyouji()
+        })
+
+        li.appendChild(check)
+        li.appendChild(text)
+        li.appendChild(del)
+        list.appendChild(li)
+      }
+    }
+
+    hyouji()
+
+    document.getElementById("btn").addEventListener("click", function () {
+      let title = document.getElementById("title").value
+      if (title === "") {
+        alert("タイトルを入力してくださいませ")
+        return
+      }
+      let shurui = document.getElementById("shurui").value
+      items.push({ shurui: shurui, title: title, done: false })
+      hozon()
+      hyouji()
+      document.getElementById("title").value = ""
+    })
+  </script>
+</body>
+</html>
