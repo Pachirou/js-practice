@@ -2,56 +2,33 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>はじめてのページ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pachirouのツール箱</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    a {
+      display: block;
+      margin: 12px 0;
+      padding: 16px;
+      background: #48C6DA;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-size: 20px;
+      border-radius: 12px;
+    }
+  </style>
 </head>
 <body>
-  <h1 id="message">今日の推しは？</h1>
-  <button id="btn">ガチャを引く</button>
-   <script>
-    let oshiList = ["迅悠一", "篠澤広", "賀陽燐羽", "秦谷美鈴", "青葉モカ", "日野森志歩", "宵崎奏", "犬寄しのぶ", "山手響子"]
-    document.getElementById("btn").addEventListener("click", function () {
-      let i = Math.floor(Math.random() * oshiList.length)
-      let oshi = oshiList[i]
-
-      let r = Math.random()
-      let rarity = "R"
-      let color = "black"
-      if (r < 0.03) {
-        rarity = "SSR"
-        color = "goldenrod"
-      } else if (r < 0.2) {
-        rarity = "SR"
-        color = "royalblue"
-      }
-
-      let result = "【" + rarity + "】" + oshi + "が出た！"
-
-      if (oshi === "篠澤広") {
-        result = result + " 千奈も一緒に来てくれた！"
-      } else if (oshi === "賀陽燐羽") {
-        result = result + " 美鈴がそっと隣に！"
-      } else if (oshi === "秦谷美鈴") {
-        result = result + " 燐羽がそっと隣に！"
-      } else if (oshi === "青葉モカ") {
-        result = result + " 蘭も一緒に来てくれた！"
-      } else if (oshi === "山手響子") {
-        result = result + " しのぶも一緒に来てくれた！"
-      } else if (oshi === "犬寄しのぶ") {
-        result = result + " 響子も一緒に来てくれた！"
-      } else if (oshi === "宵崎奏") {
-        result = result + " 絵名も一緒に来てくれた！"
-      }else if (oshi === "迅悠一") {
-        result = result + " メガネ君も一緒に来てくれた！"
-      }else if (oshi === "日野森志歩") {
-        result = result + " 一歌がそっと隣に！"
-      }
-
-      let message = document.getElementById("message")
-      message.textContent = result
-      message.style.color = color
-    })
-  </script>
+  <h1>Pachirouのツール箱</h1>
+  <a href="gacha.html">推しランダムガチャ</a>
+  <a href="stone.html">ガチャ石計算ツール</a>
+  <a href="slot.html">ファンキージャグラー2 設定判別</a>
+  <a href="pachi.html">パチンコ期待値計算機</a>
 </body>
 </html>
