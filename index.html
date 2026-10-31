@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>はじめてのページ</title>
+</head>
+<body>
+  <h1 id="message">今日の推しは？</h1>
+  <button id="btn">ガチャを引く</button>
+   <script>
+    let oshiList = ["迅悠一", "篠澤広", "賀陽燐羽", "秦谷美鈴", "青葉モカ", "日野森志歩", "宵崎奏", "犬寄しのぶ", "山手響子"]
+    document.getElementById("btn").addEventListener("click", function () {
+      let i = Math.floor(Math.random() * oshiList.length)
+      let oshi = oshiList[i]
+
+      let r = Math.random()
+      let rarity = "R"
+      let color = "black"
+      if (r < 0.03) {
+        rarity = "SSR"
+        color = "goldenrod"
+      } else if (r < 0.2) {
+        rarity = "SR"
+        color = "royalblue"
+      }
+
+      let result = "【" + rarity + "】" + oshi + "が出た！"
+
+      if (oshi === "篠澤広") {
+        result = result + " 千奈も一緒に来てくれた！"
+      } else if (oshi === "賀陽燐羽") {
+        result = result + " 美鈴がそっと隣に！"
+      } else if (oshi === "秦谷美鈴") {
+        result = result + " 燐羽がそっと隣に！"
+      } else if (oshi === "青葉モカ") {
+        result = result + " 蘭も一緒に来てくれた！"
+      } else if (oshi === "山手響子") {
+        result = result + " しのぶも一緒に来てくれた！"
+      } else if (oshi === "犬寄しのぶ") {
+        result = result + " 響子も一緒に来てくれた！"
+      } else if (oshi === "宵崎奏") {
+        result = result + " 絵名も一緒に来てくれた！"
+      }
+
+      let message = document.getElementById("message")
+      message.textContent = result
+      message.style.color = color
+    })
+  </script>
+</body>
+</html>

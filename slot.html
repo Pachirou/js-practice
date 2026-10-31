@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ファンキージャグラー2 設定判別</title>
+</head>
+<body>
+  <h1>ファンキージャグラー2 設定判別</h1>
+  <p>総ゲーム数：<input type="number" id="games"></p>
+  <p>BIG回数：<input type="number" id="big"></p>
+  <p>REG回数：<input type="number" id="reg"></p>
+  <button id="btn">計算する</button>
+  <p id="bigResult"></p>
+  <p id="regResult"></p>
+  <p id="totalResult"></p>
+  <h2 id="setteiResult"></h2>
+  <p id="chui"></p>
+
+  <script>
+    let setteiList = [
+      { settei: 1, big: 266.4, reg: 439.8 },
+      { settei: 2, big: 259.0, reg: 407.1 },
+      { settei: 3, big: 256.0, reg: 366.1 },
+      { settei: 4, big: 249.2, reg: 322.8 },
+      { settei: 5, big: 240.1, reg: 299.3 },
+      { settei: 6, big: 219.9, reg: 262.1 }
+    ]
+
+    function kakuritsu(games, count) {
+      if (count <= 0) {
+        return "まだ0回"
+      }
+      return "1/" + (games / count).toFixed(1)
+    }
+
+    function hantei(games, big, reg) {
+      let best = setteiList[0]
+      let bestSa = 999
+      for (let s of setteiList) {
+        let sa = Math.abs(big / games - 1 / s.big) + Math.abs(reg / games - 1 / s.reg)
+        if (sa < bestSa) {
+          bestSa = sa
+          best = s
+        }
+      }
+      return best.settei
+    }
+
+    document.getElementById("btn").addEventListener("click", function () {
+      let games = Number(document.getElementById("games").value)
+      let big = Number(document.getElementById("big").value)
+      let reg = Number(document.getElementById("reg").value)
+
+      if (games <= 0) {
+        document.getElementById("setteiResult").textContent = "総ゲーム数を入力してくださいませ"
+        return
+      }
+
+      document.getElementById("bigResult").textContent = "BIG確率：" + kakuritsu(games, big)
+      document.getElementById("regResult").textContent = "REG確率：" + kakuritsu(games, reg)
+      document.getElementById("totalResult").textContent = "合算確率：" + kakuritsu(games, big + reg)
+      document.getElementById("setteiResult").textContent = "一番近いのは 設定" + hantei(games, big, reg)
+
+      if (games < 3000) {
+        document.getElementById("chui").textContent = "※ゲーム数が少ないうちは、あくまで参考程度でございます"
+      } else {
+        document.getElementById("chui").textContent = ""
+      }
+    })
+  </script>
+</body>
+</html>

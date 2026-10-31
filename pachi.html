@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"> 
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <title>パチンコ期待値計算機</title>
+</head>
+<body>
+  <h1>パチンコ期待値計算機</h1>
+  <p>投資金額（円）：<input type="number" id="toushi"></p>
+  <p>回転数：<input type="number" id="kaiten"></p>
+  <p>大当たり確率 1/<input type="number" id="bunbo" value="319.7"></p>
+  <p>初当たり1回の平均出玉（玉）：<input type="number" id="dedama"></p>
+  <p>換金単価（円/玉）：<input type="number" id="tanka" value="4"></p>
+  <button id="btn">計算する</button>
+  <p id="kaitenritsu"></p>
+  <p id="border"></p>
+  <h2 id="kitaichi"></h2>
+
+  <script>
+    document.getElementById("btn").addEventListener("click", function () {
+      let toushi = Number(document.getElementById("toushi").value)
+      let kaiten = Number(document.getElementById("kaiten").value)
+      let bunbo = Number(document.getElementById("bunbo").value)
+      let dedama = Number(document.getElementById("dedama").value)
+      let tanka = Number(document.getElementById("tanka").value)
+
+      if (toushi <= 0 || kaiten <= 0 || bunbo <= 0 || dedama <= 0 || tanka <= 0) {
+        document.getElementById("kitaichi").textContent = "すべての欄を入力してくださいませ"
+        return
+      }
+
+      let kaitenritsu = kaiten / (toushi / 1000)
+      let border = bunbo * 250 / dedama
+      let kitaichi = dedama * tanka / bunbo - 1000 / kaitenritsu
+
+      document.getElementById("kaitenritsu").textContent =
+        "回転率：1000円あたり " + kaitenritsu.toFixed(1) + " 回"
+      document.getElementById("border").textContent =
+        "ボーダー（等価）：1000円あたり " + border.toFixed(1) + " 回"
+      document.getElementById("kitaichi").textContent =
+        "期待値：1回転あたり " + kitaichi.toFixed(2) + " 円（1000回転で " + Math.round(kitaichi * 1000) + " 円）"
+    })
+  </script>
+</body>
+</html>

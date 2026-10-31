@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ガチャ石計算ツール</title>
+</head>
+<body>
+  <h1>ガチャ石計算ツール</h1>
+  <p>手持ちの石：<input type="number" id="ishi"></p>
+  <p>1回に使う石：<input type="number" id="ikkai" value="250"></p>
+  <button id="btn">計算する</button>
+  <h2 id="result"></h2>
+
+  <script>
+    document.getElementById("btn").addEventListener("click", function () {
+      let ishi = Number(document.getElementById("ishi").value)
+      let ikkai = Number(document.getElementById("ikkai").value)
+
+      if (ishi <= 0 || ikkai <= 0) {
+        document.getElementById("result").textContent = "石の数を入力してくださいませ"
+        return
+      }
+
+      let kaisu = Math.floor(ishi / ikkai)
+      let renzoku = Math.floor(kaisu / 10)
+      let amari = ishi % ikkai
+
+      document.getElementById("result").textContent =
+        kaisu + "回引けます（10連なら" + renzoku + "回）。余る石は" + amari + "個です"
+    })
+  </script>
+</body>
+</html>
