@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>パチスロ収支メモ</title>
+</head>
+<body>
+  <h1>パチスロ収支メモ</h1>
+  <p>日付：<input type="date" id="hiduke"></p>
+  <p>機種：<input type="text" id="kishu"></p>
+  <p>投資（円）：<input type="number" id="toushi"></p>
+  <p>回収（円）：<input type="number" id="kaishu"></p>
+  <button id="btn">記録する</button>
+  <h2 id="goukei"></h2>
+  <ul id="list"></ul>
+  <button id="clear">全部消す</button>
+  <p><a href="index.html">メニューに戻る</a></p>
+
+  <script>
+    let kiroku = JSON.parse(localStorage.getItem("kiroku") || "[]")
+
+    function hyouji() {
+      let list = document.getElementById("list")
+      list.innerHTML = ""
+      let goukei = 0
+      for (let k of kiroku) {
+        let shushi = k.kaishu - k.toushi
+        goukei = goukei + shushi
+        let li = document.createElement("li")
+        li.textContent = k.hiduke + " " + k.kishu + "：" + shushi + "円"
+        list.appendChild(li)
+      }
+      document.getElementById("goukei").textContent = "合計収支：" + goukei + "円"
+    }
+
+    document.getElementById("hiduke").value = new Date().toLocaleDateString("sv-SE")
+    hyouji()
+
+    document.getElementById("btn").addEventListener("click", function () {
+      let hiduke = document.getElementById("hiduke").value
+      let kishu = document.getElementById("kishu").value
+      let toushi = Number(document.getElementById("toushi").value)
+      let kaishu = Number(document.getElementById("kaishu").value)
+
+      if (hiduke === "" || kishu === "") {
+        alert("日付と機種を入力してくださいませ")
+        return
+      }
+
+      kiroku.push({ hiduke: hiduke, kishu: kishu, toushi: toushi, kaishu: kaishu })
+      localStorage.setItem("kiroku", JSON.stringify(kiroku))
+      hyouji()
+    })
+
+    document.getElementById("clear").addEventListener("click", function () {
+      if (confirm("記録を全部消しますか？")) {
+        kiroku = []
+        localStorage.removeItem("kiroku")
+        hyouji()
+      }
+    })
+  </script>
+</body>
+</html>
